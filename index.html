@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>张江科创 · 时空胶囊</title>
+    <style>
+        /* 基础重置与全局样式 */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background-color: #0f172a; /* 深空蓝背景 */
+            color: #e2e8f0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* 顶部头图区域 */
+        .hero {
+            height: 40vh;
+            background: linear-gradient(180deg, rgba(15,23,42,0.3) 0%, #0f172a 100%), 
+                        url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop') center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+            position: relative;
+        }
+        .hero h1 {
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+            background: -webkit-linear-gradient(45deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 14px;
+            color: #94a3b8;
+            font-style: italic;
+        }
+
+        /* 内容卡片容器 */
+        .container { padding: 20px; }
+
+        .card {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .card h2 {
+            font-size: 18px;
+            color: #38bdf8;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .card h2::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 16px;
+            background: #38bdf8;
+            margin-right: 10px;
+            border-radius: 2px;
+        }
+
+        .text-content {
+            font-size: 15px;
+            color: #cbd5e1;
+            text-align: justify;
+        }
+
+        /* 交互区域：芯片与经络 */
+        .chip-interaction {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .chip-btn {
+            width: 120px;
+            height: 120px;
+            background: url('https://api.iconify.design/ph:cpu.svg?color=%2338bdf8') no-repeat center center / 60%;
+            border: 2px dashed rgba(56, 189, 248, 0.5);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .chip-btn:active { transform: scale(0.95); }
+        
+        .chip-result {
+            margin-top: 15px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #facc15;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .chip-result.show { opacity: 1; }
+
+        /* 留言板区域 */
+        .capsule-area {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        textarea {
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid #334155;
+            color: #e2e8f0;
+            padding: 12px;
+            border-radius: 8px;
+            resize: none;
+            height: 80px;
+            font-family: inherit;
+        }
+        textarea:focus { outline: none; border-color: #38bdf8; }
+        
+        .submit-btn {
+            background: linear-gradient(90deg, #0ea5e9, #6366f1);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .submit-btn:active { opacity: 0.8; }
+
+        .msg-display {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #10b981;
+            text-align: center;
+            min-height: 20px;
+        }
+
+        /* 底部 */
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: #64748b;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 头部区域 -->
+    <div class="hero">
+        <h1>Stories of Invention</h1>
+        <p>张江科创 · 时空胶囊</p>
+    </div>
+
+    <div class="container">
+        <!-- 第一部分：历史传承 -->
+        <div class="card">
+            <h2>科创的足迹</h2>
+            <p class="text-content">
+                从三十年前的农田，到如今的“中国药谷”与“硅谷”。张江科学城的崛起，是无数科研人员日夜奋斗的缩影。书签上的每一道纹路，都见证了中国硬核科技的跨越。
+            </p>
+        </div>
+
+        <!-- 第二部分：交互科技 -->
+        <div class="card">
+            <h2>Invention: 点触未来</h2>
+            <p class="text-content" style="margin-bottom: 10px; font-size: 14px; color: #94a3b8;">
+                轻点下方芯片，查看 AI 视角下的生命科学与集成电路的融合：
+            </p>
+            <div class="chip-interaction">
+                <div class="chip-btn" onclick="activateChip()"></div>
+                <div class="chip-result" id="chipResult">
+                    <span style="text-align:left;">
+                        [ 系统激活 ]<br>
+                        芯片微光闪烁，化作人体经络图。<br>
+                        科技与中医药，在此刻完成跨时空交汇。
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第三部分：时空胶囊（互动） -->
+        <div class="card">
+            <h2>Explore: 写下你的期许</h2>
+            <p class="text-content" style="margin-bottom: 15px; font-size: 14px; color: #94a3b8;">
+                这是一个基于 NFC 触发的数字胶囊。留下你对未来科技的愿望，它将与这枚实体书签一起，被保存下来。
+            </p>
+            <div class="capsule-area">
+                <textarea id="userMsg" placeholder="例如：希望未来我能参与研发治愈癌症的药物..."></textarea>
+                <button class="submit-btn" onclick="saveMessage()">封存胶囊</button>
+                <div class="msg-display" id="msgDisplay"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Trust the Process
+    </footer>
+
+    <!-- 交互逻辑 JS -->
+    <script>
+        // 芯片点击动效
+        function activateChip() {
+            const result = document.getElementById('chipResult');
+            const btn = document.querySelector('.chip-btn');
+            
+            // 按钮闪烁动效
+            btn.style.boxShadow = "0 0 30px #38bdf8";
+            btn.style.border = "2px solid #38bdf8";
+            btn.style.background = "rgba(56, 189, 248, 0.2)";
+
+            // 显示文字
+            result.classList.add('show');
+        }
+
+        // 时空胶囊留言功能
+        function saveMessage() {
+            const msg = document.getElementById('userMsg').value;
+            const display = document.getElementById('msgDisplay');
+
+            if (!msg.trim()) {
+                display.style.color = "#ef4444";
+                display.innerText = "胶囊是空的，请写点什么吧~";
+                return;
+            }
+
+            // 模拟保存过程
+            display.style.color = "#10b981";
+            display.innerText = "正在封存...";
+            
+            setTimeout(() => {
+                display.innerText = "✅ 胶囊已封存！感谢你的参与。";
+                document.getElementById('userMsg').value = ""; // 清空输入框
+                
+                // 这里如果以后学了后端，可以把 msg 发送到服务器
+                // 现在只是前端演示效果
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
