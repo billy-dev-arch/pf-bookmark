@@ -5,234 +5,388 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>张江科创 · 时空胶囊</title>
     <style>
-        /* 基础重置与全局样式 */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        /* 核心重置与全局变量 */
+        :root {
+            --primary: #38bdf8;
+            --bg: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.75);
+            --text-main: #e2e8f0;
+            --text-sub: #94a3b8;
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        
         body {
-            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
-            background-color: #0f172a; /* 深空蓝背景 */
-            color: #e2e8f0;
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
             line-height: 1.6;
             overflow-x: hidden;
+            background-image: radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.08), transparent 25%),
+                              radial-gradient(circle at 85% 30%, rgba(99, 102, 241, 0.08), transparent 25%);
         }
 
-        /* 顶部头图区域 */
+        /* 顶部头图区 */
         .hero {
             height: 40vh;
-            background: linear-gradient(180deg, rgba(15,23,42,0.3) 0%, #0f172a 100%), 
-                        url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop') center/cover;
+            position: relative;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
-            padding: 20px;
-            position: relative;
+            padding: 24px;
+            background: linear-gradient(180deg, rgba(15,23,42,0) 0%, rgba(15,23,42,1) 100%);
         }
+        .skyline {
+            position: absolute;
+            bottom: 0; left: 0; width: 100%; height: 120px;
+            background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 20" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,20 L0,15 L5,15 L5,10 L10,10 L10,18 L15,18 L15,5 L20,5 L20,12 L25,12 L25,2 L30,2 L30,15 L40,15 L40,8 L45,8 L45,20 Z" fill="rgba(56,189,248,0.1)"/></svg>');
+            background-size: cover;
+            background-repeat: no-repeat;
+            z-index: 0;
+        }
+        .hero-content { position: relative; z-index: 1; }
         .hero h1 {
-            font-size: 28px;
-            font-weight: 600;
+            font-size: 32px;
+            font-weight: 800;
             letter-spacing: 2px;
-            margin-bottom: 5px;
-            background: -webkit-linear-gradient(45deg, #38bdf8, #818cf8);
+            margin-bottom: 8px;
+            background: linear-gradient(45deg, #38bdf8, #818cf8, #c084fc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         .hero p {
-            font-size: 14px;
-            color: #94a3b8;
-            font-style: italic;
+            font-size: 15px;
+            color: var(--text-sub);
+            font-family: 'Courier New', Courier, monospace;
+            letter-spacing: 1px;
         }
 
-        /* 内容卡片容器 */
-        .container { padding: 20px; }
-
+        /* 卡片布局 */
+        .container { padding: 0 20px 30px; position: relative; z-index: 1; margin-top: -20px;}
+        
         .card {
-            background: rgba(30, 41, 59, 0.7);
-            border: 1px solid rgba(56, 189, 248, 0.2);
+            background: var(--card-bg);
+            border: 1px solid rgba(56, 189, 248, 0.15);
             border-radius: 16px;
             padding: 24px;
             margin-bottom: 24px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
         }
 
         .card h2 {
             font-size: 18px;
-            color: #38bdf8;
-            margin-bottom: 15px;
+            color: var(--text-main);
+            margin-bottom: 16px;
             display: flex;
             align-items: center;
+            font-weight: 600;
         }
         .card h2::before {
             content: '';
             display: inline-block;
-            width: 4px;
-            height: 16px;
-            background: #38bdf8;
-            margin-right: 10px;
-            border-radius: 2px;
+            width: 6px;
+            height: 18px;
+            background: linear-gradient(to bottom, #38bdf8, #6366f1);
+            margin-right: 12px;
+            border-radius: 3px;
         }
 
         .text-content {
             font-size: 15px;
             color: #cbd5e1;
             text-align: justify;
+            letter-spacing: 0.5px;
         }
 
-        /* 交互区域：芯片与经络 */
-        .chip-interaction {
-            text-align: center;
-            margin: 20px 0;
-        }
-        .chip-btn {
-            width: 120px;
-            height: 120px;
-            background: url('https://api.iconify.design/ph:cpu.svg?color=%2338bdf8') no-repeat center center / 60%;
-            border: 2px dashed rgba(56, 189, 248, 0.5);
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin: 0 auto;
+        /* === 新增：科创故事横向滑动区 === */
+        .story-scroll-container {
             display: flex;
-            align-items: center;
-            justify-content: center;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            gap: 16px;
+            padding: 10px 0 20px;
+            /* 隐藏滚动条 */
+            scrollbar-width: none; 
+            -ms-overflow-style: none;
         }
-        .chip-btn:active { transform: scale(0.95); }
-        
-        .chip-result {
-            margin-top: 15px;
-            height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            color: #facc15;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        .chip-result.show { opacity: 1; }
+        .story-scroll-container::-webkit-scrollbar { display: none; }
 
-        /* 留言板区域 */
-        .capsule-area {
+        .story-card {
+            flex: 0 0 85%; /* 卡片宽度占屏幕85%，露出边缘提示可滑动 */
+            scroll-snap-align: center;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 12px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            justify-content: space-between;
         }
+        .story-tag {
+            display: inline-block;
+            font-size: 12px;
+            color: #38bdf8;
+            background: rgba(56, 189, 248, 0.1);
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            align-self: flex-start;
+        }
+        .story-title {
+            font-size: 17px;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+        .story-desc {
+            font-size: 13px;
+            color: #94a3b8;
+            margin-bottom: 16px;
+            text-align: justify;
+            flex-grow: 1;
+        }
+        .story-spirit {
+            font-size: 12px;
+            color: #facc15;
+            border-top: 1px dashed rgba(250, 204, 21, 0.3);
+            padding-top: 10px;
+        }
+
+        /* 芯片交互区 */
+        .chip-interaction {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .chip-btn {
+            width: 100px;
+            height: 100px;
+            background: rgba(56, 189, 248, 0.05);
+            border: 2px dashed rgba(56, 189, 248, 0.5);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .chip-btn::after {
+            content: 'CPU';
+            color: var(--primary);
+            font-weight: bold;
+            font-family: monospace;
+            letter-spacing: 2px;
+        }
+        .chip-btn::before {
+            content: ''; position: absolute; width: 120%; height: 120%;
+            border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 24px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.9); opacity: 1; }
+            100% { transform: scale(1.2); opacity: 0; }
+        }
+        .chip-btn.active {
+            background: rgba(56, 189, 248, 0.2);
+            border: 2px solid #38bdf8;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+            transform: scale(0.95);
+        }
+        .chip-result {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(15, 23, 42, 0.6);
+            border-left: 3px solid #38bdf8;
+            border-radius: 0 8px 8px 0;
+            font-size: 14px;
+            color: #a7f3d0;
+            display: none;
+            animation: fadeIn 0.6s ease forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 胶囊留言板 */
+        .capsule-area { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
         textarea {
             width: 100%;
-            background: #0f172a;
-            border: 1px solid #334155;
-            color: #e2e8f0;
-            padding: 12px;
-            border-radius: 8px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            color: #fff;
+            padding: 14px;
+            border-radius: 12px;
             resize: none;
-            height: 80px;
+            height: 90px;
             font-family: inherit;
+            font-size: 14px;
+            transition: border-color 0.3s;
         }
-        textarea:focus { outline: none; border-color: #38bdf8; }
+        textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 10px rgba(56, 189, 248, 0.2); }
+        textarea::placeholder { color: #64748b; }
         
         .submit-btn {
             background: linear-gradient(90deg, #0ea5e9, #6366f1);
             color: white;
             border: none;
-            padding: 12px;
-            border-radius: 8px;
+            padding: 14px;
+            border-radius: 12px;
             font-size: 16px;
-            font-weight: bold;
+            font-weight: 600;
             cursor: pointer;
-            transition: opacity 0.2s;
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+            transition: all 0.2s;
         }
-        .submit-btn:active { opacity: 0.8; }
+        .submit-btn:active { transform: scale(0.97); opacity: 0.9; }
+        .msg-display { font-size: 14px; text-align: center; min-height: 20px; color: #10b981; }
 
-        .msg-display {
-            margin-top: 15px;
-            font-size: 14px;
-            color: #10b981;
-            text-align: center;
-            min-height: 20px;
-        }
-
-        /* 底部 */
         footer {
             text-align: center;
-            padding: 20px;
+            padding: 30px 20px;
             font-size: 12px;
-            color: #64748b;
-            letter-spacing: 1px;
+            color: #475569;
+            letter-spacing: 2px;
+            font-family: monospace;
         }
     </style>
 </head>
 <body>
 
-    <!-- 头部区域 -->
     <div class="hero">
-        <h1>Stories of Invention</h1>
-        <p>张江科创 · 时空胶囊</p>
+        <div class="skyline"></div>
+        <div class="hero-content">
+            <h1>Stories of Invention</h1>
+            <p>> 张江科创·时空胶囊...</p>
+        </div>
     </div>
 
     <div class="container">
-        <!-- 第一部分：历史传承 -->
+        
+        <!-- 第一部分：新增的科创故事滑动区 -->
         <div class="card">
-            <h2>科创的足迹</h2>
-            <p class="text-content">
-                从三十年前的农田，到如今的“中国药谷”与“硅谷”。张江科学城的崛起，是无数科研人员日夜奋斗的缩影。书签上的每一道纹路，都见证了中国硬核科技的跨越。
+            <h2>张江群星闪耀时 / The Stories</h2>
+            <p class="text-content" style="font-size: 14px; color: #94a3b8; margin-bottom: 10px;">
+                左右滑动，倾听这座科学城从0到1的突破故事：
             </p>
-        </div>
+            
+            <div class="story-scroll-container">
+                <!-- 故事1 -->
+                <div class="story-card">
+                    <div>
+                        <span class="story-tag">生物医药</span>
+                        <div class="story-title">车库里的十年长跑：国产糖尿病新药</div>
+                        <div class="story-desc">
+                            陈力团队从张江的车库起步，耗时10年，递交36万多页申报材料（装满一集装箱）。依托张江共享实验室，研发出全球首创糖尿病口服新药多格列艾汀，完成从0到1的突破。
+                        </div>
+                    </div>
+                    <div class="story-spirit">精神：长期主义 / 不惧失败</div>
+                </div>
 
-        <!-- 第二部分：交互科技 -->
-        <div class="card">
-            <h2>Invention: 点触未来</h2>
-            <p class="text-content" style="margin-bottom: 10px; font-size: 14px; color: #94a3b8;">
-                轻点下方芯片，查看 AI 视角下的生命科学与集成电路的融合：
-            </p>
-            <div class="chip-interaction">
-                <div class="chip-btn" onclick="activateChip()"></div>
-                <div class="chip-result" id="chipResult">
-                    <span style="text-align:left;">
-                        [ 系统激活 ]<br>
-                        芯片微光闪烁，化作人体经络图。<br>
-                        科技与中医药，在此刻完成跨时空交汇。
-                    </span>
+                <!-- 故事2 -->
+                <div class="story-card">
+                    <div>
+                        <span class="story-tag">大科学重器</span>
+                        <div class="story-title">“尖刀连”：打造世界顶级激光装置</div>
+                        <div class="story-desc">
+                            李儒新院士带领青年团队，日夜攻坚超强超短激光实验装置。实现10拍瓦激光放大输出，成为世界首台同级别装置并登上《科学》，打破美国长期垄断。
+                        </div>
+                    </div>
+                    <div class="story-spirit">精神：青年担当 / 为国攻坚</div>
+                </div>
+
+                <!-- 故事3 -->
+                <div class="story-card">
+                    <div>
+                        <span class="story-tag">青年创业</span>
+                        <div class="story-title">沈亦晨：海归回国攻关光芯片</div>
+                        <div class="story-desc">
+                            放弃海外机会回到张江，创办曦智科技。从寥寥数人起步，历经多次技术迭代，在张江产业土壤上，将实验室论文变成可以量产的光计算芯片，解决AI大模型算力瓶颈。
+                        </div>
+                    </div>
+                    <div class="story-spirit">精神：敢闯前沿无人区 / 产业落地</div>
+                </div>
+
+                <!-- 故事4 -->
+                <div class="story-card">
+                    <div>
+                        <span class="story-tag">青春坚守</span>
+                        <div class="story-title">地下30米的硬X射线装置</div>
+                        <div class="story-desc">
+                            总长超3公里的硬X射线自由电子激光装置深埋地下。大批青年科研人员奔赴张江，钱厚俊带回海外技术构想，团队要求毫米级精度、零容错标准，默默打磨大国重器。
+                        </div>
+                    </div>
+                    <div class="story-spirit">精神：精益求精 / 坐冷板凳</div>
                 </div>
             </div>
         </div>
 
-        <!-- 第三部分：时空胶囊（互动） -->
+        <!-- 第二部分：芯片交互区 -->
         <div class="card">
-            <h2>Explore: 写下你的期许</h2>
-            <p class="text-content" style="margin-bottom: 15px; font-size: 14px; color: #94a3b8;">
-                这是一个基于 NFC 触发的数字胶囊。留下你对未来科技的愿望，它将与这枚实体书签一起，被保存下来。
+            <h2>Invention / 点触未来</h2>
+            <p class="text-content" style="margin-bottom: 15px;">
+                轻触下方芯片，唤醒 AI 视角下的生命科学与集成电路融合图谱：
+            </p>
+            <div class="chip-interaction">
+                <div class="chip-btn" id="chipBtn" onclick="activateChip()"></div>
+                <div class="chip-result" id="chipResult">
+                    <strong>[ 智能感应激活 ]</strong><br><br>
+                    数据流正在解析...<br>
+                    ▸ 检测到张江科创基因<br>
+                    ▸ 芯片微光闪烁，化作人体经络图<br>
+                    ▸ 科技与中医药，在此刻完成跨时空交汇。
+                </div>
+            </div>
+        </div>
+
+        <!-- 第三部分：时空胶囊 -->
+        <div class="card">
+            <h2>Explore / 写入时空胶囊</h2>
+            <p class="text-content" style="margin-bottom: 15px;">
+                实体书签承载了物理的记忆，这里是它的数字延伸。留下你对未来科技的期许，将它封存：
             </p>
             <div class="capsule-area">
-                <textarea id="userMsg" placeholder="例如：希望未来我能参与研发治愈癌症的药物..."></textarea>
-                <button class="submit-btn" onclick="saveMessage()">封存胶囊</button>
+                <textarea id="userMsg" placeholder="例如：希望未来我能用AI研发出治愈绝症的药物..."></textarea>
+                <button class="submit-btn" onclick="saveMessage()">🔒 封存我的胶囊</button>
                 <div class="msg-display" id="msgDisplay"></div>
             </div>
         </div>
     </div>
 
     <footer>
-        Trust the Process
+        TRUST THE PROCESS<br>
+        © 张江学区科创大赛作品
     </footer>
 
-    <!-- 交互逻辑 JS -->
     <script>
-        // 芯片点击动效
-        function activateChip() {
-            const result = document.getElementById('chipResult');
-            const btn = document.querySelector('.chip-btn');
-            
-            // 按钮闪烁动效
-            btn.style.boxShadow = "0 0 30px #38bdf8";
-            btn.style.border = "2px solid #38bdf8";
-            btn.style.background = "rgba(56, 189, 248, 0.2)";
+        let isChipActive = false;
 
-            // 显示文字
-            result.classList.add('show');
+        function activateChip() {
+            const btn = document.getElementById('chipBtn');
+            const result = document.getElementById('chipResult');
+            
+            if (isChipActive) return;
+            isChipActive = true;
+
+            btn.classList.add('active');
+            btn.innerHTML = '⚡';
+            btn.style.color = '#facc15';
+            btn.style.fontSize = '30px';
+
+            result.style.display = 'block';
+            if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
         }
 
-        // 时空胶囊留言功能
         function saveMessage() {
             const msg = document.getElementById('userMsg').value;
             const display = document.getElementById('msgDisplay');
+            const btn = document.querySelector('.submit-btn');
 
             if (!msg.trim()) {
                 display.style.color = "#ef4444";
@@ -240,17 +394,15 @@
                 return;
             }
 
-            // 模拟保存过程
-            display.style.color = "#10b981";
-            display.innerText = "正在封存...";
+            btn.innerText = "正在加密...";
+            btn.style.opacity = "0.7";
             
             setTimeout(() => {
-                display.innerText = "✅ 胶囊已封存！感谢你的参与。";
-                document.getElementById('userMsg').value = ""; // 清空输入框
-                
-                // 这里如果以后学了后端，可以把 msg 发送到服务器
-                // 现在只是前端演示效果
-            }, 1000);
+                display.innerText = "✅ 胶囊已成功封存至星海！";
+                document.getElementById('userMsg').value = "";
+                btn.innerText = "🔒 封存我的胶囊";
+                btn.style.opacity = "1";
+            }, 1200);
         }
     </script>
 </body>
