@@ -49,35 +49,12 @@
             -webkit-mask-image: linear-gradient(to top, #000 55%, transparent 100%);
             mask-image: linear-gradient(to top, #000 55%, transparent 100%);
         }
-        .skyline svg {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-        .skyline .metal-bg {
-            fill: url(#metalGrad);
-        }
-        .skyline .metal-edge {
-            fill: none;
-            stroke: #e5e7eb;
-            stroke-width: 0.35;
-            opacity: 0.9;
-        }
-        .skyline .metal-etch {
-            fill: none;
-            stroke: #94a3b8;
-            stroke-width: 0.18;
-            opacity: 0.55;
-        }
-        .skyline .metal-glint {
-            fill: #f8fafc;
-            opacity: 0.5;
-        }
-        .skyline .metal-glow {
-            fill: #38bdf8;
-            opacity: 0.22;
-            filter: blur(6px);
-        }
+        .skyline svg { width: 100%; height: 100%; display: block; }
+        .skyline .metal-bg { fill: url(#metalGrad); }
+        .skyline .metal-edge { fill: none; stroke: #e5e7eb; stroke-width: 0.35; opacity: 0.9; }
+        .skyline .metal-etch { fill: none; stroke: #94a3b8; stroke-width: 0.18; opacity: 0.55; }
+        .skyline .metal-glint { fill: #f8fafc; opacity: 0.5; }
+        .skyline .metal-glow { fill: #38bdf8; opacity: 0.22; filter: blur(6px); }
 
         .hero-content { position: relative; z-index: 1; }
         .hero h1 {
@@ -221,6 +198,66 @@
         }
         .video-wrapper video { width: 100%; display: block; object-fit: cover; }
 
+        /* 两幅动画块 */
+        .anim-block {
+            margin-top: 16px;
+            padding: 12px;
+            background: rgba(15, 23, 42, 0.55);
+            border: 1px solid rgba(56, 189, 248, 0.18);
+            border-radius: 12px;
+        }
+        .anim-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #38bdf8;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+        .etch-anim svg {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+        }
+
+        /* 动画一：蚀刻扫描与线路显现 */
+        .etch-scan {
+            animation: etchScan 3.2s ease-in-out infinite;
+        }
+        @keyframes etchScan {
+            0%   { transform: translateX(0); opacity: 0; }
+            10%  { opacity: 0.9; }
+            80%  { opacity: 0.9; }
+            100% { transform: translateX(240px); opacity: 0; }
+        }
+        .etch-trace path {
+            stroke-dasharray: 600;
+            stroke-dashoffset: 600;
+            animation: etchTrace 3.2s ease-in-out infinite;
+        }
+        .etch-trace path:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+        @keyframes etchTrace {
+            0%   { stroke-dashoffset: 600; opacity: 0.2; }
+            30%  { opacity: 1; }
+            70%  { stroke-dashoffset: 0; opacity: 1; }
+            100% { stroke-dashoffset: 0; opacity: 0.6; }
+        }
+
+        /* 视频按需加载按钮 */
+        .load-video-btn {
+            width: 100%;
+            background: rgba(56, 189, 248, 0.12);
+            border: 1px dashed rgba(56, 189, 248, 0.5);
+            color: #38bdf8;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        .load-video-btn:active { transform: scale(0.98); }
+
         /* 金属腐蚀片说明 */
         .metal-etch-note {
             margin-top: 16px;
@@ -245,6 +282,72 @@
             color: #94a3b8;
             line-height: 1.7;
             text-align: justify;
+        }
+
+        /* AI 动画 */
+        .ai-anim svg {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+        }
+        .ai-pulse {
+            animation: aiPulse 2.6s ease-in-out infinite;
+        }
+        @keyframes aiPulse {
+            0%, 100% { opacity: 0.45; transform: scale(0.95); transform-origin: 180px 110px; }
+            50%      { opacity: 0.9;  transform: scale(1.08); transform-origin: 180px 110px; }
+        }
+        .ai-orbit {
+            animation: aiSpin 8s linear infinite;
+        }
+        .ai-orbit-rev {
+            animation: aiSpinRev 11s linear infinite;
+        }
+        @keyframes aiSpin {
+            to { transform: rotate(360deg); }
+        }
+        @keyframes aiSpinRev {
+            to { transform: rotate(-360deg); }
+        }
+        .ai-links line {
+            animation: aiLink 3s ease-in-out infinite;
+        }
+        @keyframes aiLink {
+            0%, 100% { opacity: 0.2; }
+            50%      { opacity: 0.7; }
+        }
+        .ai-nodes circle {
+            animation: aiNode 2.4s ease-in-out infinite;
+        }
+        .ai-nodes circle:nth-child(2n) { animation-delay: 0.4s; }
+        .ai-nodes circle:nth-child(3n) { animation-delay: 0.8s; }
+        @keyframes aiNode {
+            0%, 100% { opacity: 0.4; }
+            50%      { opacity: 1; }
+        }
+        .ai-output {
+            animation: aiOutput 3.2s ease-in-out infinite;
+        }
+        @keyframes aiOutput {
+            0%, 40% { opacity: 0.3; }
+            70%, 100% { opacity: 1; }
+        }
+
+        /* AI 输出到 NFC 书签 */
+        .ai-to-nfc path:first-child {
+            stroke-dasharray: 5 4;
+            animation: nfcFlow 2.4s linear infinite;
+        }
+        @keyframes nfcFlow {
+            to { stroke-dashoffset: -18; }
+        }
+        .ai-to-nfc {
+            animation: nfcFade 3s ease-in-out infinite;
+        }
+        @keyframes nfcFade {
+            0%, 35% { opacity: 0.35; }
+            60%, 100% { opacity: 1; }
         }
 
         /* 时空胶囊 */
@@ -463,88 +566,234 @@
                 </div>
             </div>
             
-            <div class="video-wrapper" id="videoWrapper1" style="display: none;">
-                <video id="techVideo1" src="chip_make.mp4" controls playsinline webkit-playsinline preload="none"></video>
-                <p class="video-caption">视频来源：中芯国际</p>
+            <!-- 动画一：金属蚀刻减法制造 -->
+            <div class="anim-block">
+                <div class="anim-title">动画一 · 金属蚀刻：用“减法”刻出线路</div>
+                <div class="etch-anim">
+                    <svg viewBox="0 0 360 200" aria-label="金属蚀刻减法动画">
+                        <defs>
+                            <linearGradient id="etchMetal" x1="0" y1="0" x2="1" y2="1">
+                                <stop offset="0" stop-color="#334155"/>
+                                <stop offset="0.5" stop-color="#cbd5e1"/>
+                                <stop offset="1" stop-color="#475569"/>
+                            </linearGradient>
+                            <linearGradient id="etchGlow" x1="0" y1="0" x2="1" y2="0">
+                                <stop offset="0" stop-color="#38bdf8" stop-opacity="0"/>
+                                <stop offset="0.5" stop-color="#38bdf8" stop-opacity="0.7"/>
+                                <stop offset="1" stop-color="#38bdf8" stop-opacity="0"/>
+                            </linearGradient>
+                            <filter id="etchBlur">
+                                <feGaussianBlur stdDeviation="2"/>
+                            </filter>
+                        </defs>
+                        <rect width="360" height="200" rx="12" fill="#0b1224"/>
+                        <rect x="30" y="30" width="300" height="120" rx="8" fill="url(#etchMetal)" opacity="0.85"/>
+                        <g class="etch-mask" fill="#0f172a" opacity="0.9">
+                            <path d="M50 140 L50 100 L70 100 L70 80 L90 80 L90 120 L110 120 L110 70 L130 70 L130 110 L150 110 L150 90 L170 90 L170 130 L190 130 L190 60 L210 60 L210 120 L230 120 L230 100 L250 100 L250 140 Z"/>
+                            <path d="M250 60 H290 M250 70 H280 M250 80 H290 M250 90 H270" stroke="#0f172a" stroke-width="3"/>
+                        </g>
+                        <rect class="etch-scan" x="30" y="30" width="60" height="120" fill="url(#etchGlow)" filter="url(#etchBlur)"/>
+                        <g class="etch-trace" stroke="#7dd3fc" stroke-width="2" fill="none">
+                            <path d="M50 140 L50 100 L70 100 L70 80 L90 80 L90 120 L110 120 L110 70 L130 70 L130 110 L150 110 L150 90 L170 90 L170 130 L190 130 L190 60 L210 60 L210 120 L230 120 L230 100 L250 100 L250 140"/>
+                            <path d="M250 60 H290 M250 70 H280 M250 80 H290 M250 90 H270"/>
+                        </g>
+                        <text x="180" y="180" text-anchor="middle" fill="#94a3b8" font-size="11">曝光 → 蚀刻 → 留下精密线路</text>
+                    </svg>
+                </div>
             </div>
-            <div class="tcm-stage" id="tcmStage">
-                <svg viewBox="0 0 360 228" aria-label="银杏叶脉收成电路，再收成 NFC">
-                    <defs>
-                        <linearGradient id="screen" x1="0" y1="0" x2="1" y2="1">
-                            <stop offset="0" stop-color="#0b1224"/>
-                            <stop offset="1" stop-color="#111c33"/>
-                        </linearGradient>
-                        <radialGradient id="leafGlow" cx="30%" cy="45%" r="40%">
-                            <stop offset="0" stop-color="#86efac" stop-opacity="0.28"/>
-                            <stop offset="1" stop-color="#86efac" stop-opacity="0"/>
-                        </radialGradient>
-                        <filter id="softGlow" x="-40%" y="-40%" width="180%" height="180%">
-                            <feGaussianBlur stdDeviation="1.6" result="blur"/>
-                            <feMerge>
-                                <feMergeNode in="blur"/>
-                                <feMergeNode in="SourceGraphic"/>
-                            </feMerge>
-                        </filter>
-                    </defs>
-                    <rect width="360" height="228" rx="14" fill="url(#screen)"/>
-                    <circle cx="86" cy="108" r="70" fill="url(#leafGlow)"/>
-                    <path class="leaf-body" d="M88 176 C78 150 58 124 46 100 C34 76 40 52 62 50 C70 34 84 32 90 48 C96 30 112 32 120 50 C142 48 152 74 140 102 C126 132 108 156 96 176 C93 180 90 180 88 176 Z"/>
-                    <path class="vein" d="M90 168 C78 130 62 96 50 74"/>
-                    <path class="vein d2" d="M90 168 C80 120 74 86 70 58"/>
-                    <path class="vein d3" d="M90 168 C90 120 90 84 90 52"/>
-                    <path class="vein d2" d="M90 168 C100 122 112 90 118 62"/>
-                    <path class="vein" d="M90 168 C104 128 122 104 134 84"/>
-                    <path class="vein d3" d="M90 168 C70 140 52 124 40 112"/>
-                    <path class="vein d2" d="M90 168 C108 146 124 132 136 118"/>
-                    <path class="bridge" d="M128 148 C168 156 188 78 214 92"/>
-                    <circle class="flow-dot" cx="0" cy="0" r="3.2" fill="#fde68a" filter="url(#softGlow)"/>
-                    <rect class="chip-shell" x="206" y="58" width="72" height="72" rx="8" fill="#0a1020" stroke="#38bdf8" stroke-width="1.4"/>
-                    <rect class="pin" x="198" y="70" width="8" height="4" rx="1" fill="#7dd3fc"/>
-                    <rect class="pin" x="198" y="84" width="8" height="4" rx="1" fill="#7dd3fc"/>
-                    <rect class="pin" x="198" y="98" width="8" height="4" rx="1" fill="#7dd3fc"/>
-                    <rect class="pin" x="198" y="112" width="8" height="4" rx="1" fill="#7dd3fc"/>
-                    <rect class="pin" x="278" y="70" width="8" height="4" rx="1" fill="#7dd3fc"/>
-                    <rect class="pin" x="278" y="84" width="8" height="4" rx="1" fill="#7dd3fc"/>
-                    <rect class="pin" x="278" y="98" width="8" height="4" rx="1" fill="#7dd3fc"/>
-                    <rect class="pin" x="278" y="112" width="8" height="4" rx="1" fill="#7dd3fc"/>
-                    <rect class="die" x="224" y="76" width="36" height="36" rx="3" fill="#082033" stroke="#38bdf8" stroke-width="1"/>
-                    <path class="trace" d="M206 78 H224 V94 H242"/>
-                    <path class="trace" d="M242 76 V94 H258 V112 H278"/>
-                    <path class="trace" d="M224 112 H242 V130"/>
-                    <path class="trace" d="M258 112 H242"/>
-                    <circle class="nfc-ring" cx="312" cy="104" r="14"/>
-                    <circle class="nfc-ring r2" cx="312" cy="104" r="24"/>
-                    <circle class="nfc-ring r3" cx="312" cy="104" r="34"/>
-                    <text class="stage-label l1" x="52" y="206" fill="#86efac">叶脉</text>
-                    <text class="stage-label l2" x="214" y="206" fill="#7dd3fc">电路</text>
-                    <text class="stage-label l3" x="292" y="206" fill="#facc15">NFC</text>
-                </svg>
-                <p class="video-caption">银杏叶是传统药材。叶脉把水分和养分送到叶片，经络疏通气血，芯片电路传输电信号。NFC 把这张书签接到手机上。</p>
+
+            <!-- 动画二：叶脉→电路→NFC 信号流 -->
+            <div class="anim-block">
+                <div class="anim-title">动画二 · 叶脉、电路与 NFC 的信号流动</div>
+                <div class="tcm-stage show" id="tcmStage">
+                    <svg viewBox="0 0 360 228" aria-label="银杏叶脉收成电路，再收成 NFC">
+                        <defs>
+                            <linearGradient id="screen" x1="0" y1="0" x2="1" y2="1">
+                                <stop offset="0" stop-color="#0b1224"/>
+                                <stop offset="1" stop-color="#111c33"/>
+                            </linearGradient>
+                            <radialGradient id="leafGlow" cx="30%" cy="45%" r="40%">
+                                <stop offset="0" stop-color="#86efac" stop-opacity="0.28"/>
+                                <stop offset="1" stop-color="#86efac" stop-opacity="0"/>
+                            </radialGradient>
+                            <filter id="softGlow" x="-40%" y="-40%" width="180%" height="180%">
+                                <feGaussianBlur stdDeviation="1.6" result="blur"/>
+                                <feMerge>
+                                    <feMergeNode in="blur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </defs>
+                        <rect width="360" height="228" rx="14" fill="url(#screen)"/>
+                        <circle cx="86" cy="108" r="70" fill="url(#leafGlow)"/>
+                        <path class="leaf-body" d="M88 176 C78 150 58 124 46 100 C34 76 40 52 62 50 C70 34 84 32 90 48 C96 30 112 32 120 50 C142 48 152 74 140 102 C126 132 108 156 96 176 C93 180 90 180 88 176 Z"/>
+                        <path class="vein" d="M90 168 C78 130 62 96 50 74"/>
+                        <path class="vein d2" d="M90 168 C80 120 74 86 70 58"/>
+                        <path class="vein d3" d="M90 168 C90 120 90 84 90 52"/>
+                        <path class="vein d2" d="M90 168 C100 122 112 90 118 62"/>
+                        <path class="vein" d="M90 168 C104 128 122 104 134 84"/>
+                        <path class="vein d3" d="M90 168 C70 140 52 124 40 112"/>
+                        <path class="vein d2" d="M90 168 C108 146 124 132 136 118"/>
+                        <path class="bridge" d="M128 148 C168 156 188 78 214 92"/>
+                        <circle class="flow-dot" cx="0" cy="0" r="3.2" fill="#fde68a" filter="url(#softGlow)"/>
+                        <rect class="chip-shell" x="206" y="58" width="72" height="72" rx="8" fill="#0a1020" stroke="#38bdf8" stroke-width="1.4"/>
+                        <rect class="pin" x="198" y="70" width="8" height="4" rx="1" fill="#7dd3fc"/>
+                        <rect class="pin" x="198" y="84" width="8" height="4" rx="1" fill="#7dd3fc"/>
+                        <rect class="pin" x="198" y="98" width="8" height="4" rx="1" fill="#7dd3fc"/>
+                        <rect class="pin" x="198" y="112" width="8" height="4" rx="1" fill="#7dd3fc"/>
+                        <rect class="pin" x="278" y="70" width="8" height="4" rx="1" fill="#7dd3fc"/>
+                        <rect class="pin" x="278" y="84" width="8" height="4" rx="1" fill="#7dd3fc"/>
+                        <rect class="pin" x="278" y="98" width="8" height="4" rx="1" fill="#7dd3fc"/>
+                        <rect class="pin" x="278" y="112" width="8" height="4" rx="1" fill="#7dd3fc"/>
+                        <rect class="die" x="224" y="76" width="36" height="36" rx="3" fill="#082033" stroke="#38bdf8" stroke-width="1"/>
+                        <path class="trace" d="M206 78 H224 V94 H242"/>
+                        <path class="trace" d="M242 76 V94 H258 V112 H278"/>
+                        <path class="trace" d="M224 112 H242 V130"/>
+                        <path class="trace" d="M258 112 H242"/>
+                        <circle class="nfc-ring" cx="312" cy="104" r="14"/>
+                        <circle class="nfc-ring r2" cx="312" cy="104" r="24"/>
+                        <circle class="nfc-ring r3" cx="312" cy="104" r="34"/>
+                        <text class="stage-label l1" x="52" y="206" fill="#86efac">叶脉</text>
+                        <text class="stage-label l2" x="214" y="206" fill="#7dd3fc">电路</text>
+                        <text class="stage-label l3" x="292" y="206" fill="#facc15">NFC</text>
+                    </svg>
+                    <p class="video-caption">银杏叶脉输送养分，芯片电路传输信号，NFC 把书签接到手机上。</p>
+                </div>
             </div>
+
+            <!-- 可选：视频按需加载 -->
+            <div class="anim-block">
+                <button class="load-video-btn" id="loadVideoBtn" onclick="loadChipVideo()">▶ 需要时再加载芯片制造视频</button>
+                <div class="video-wrapper" id="videoWrapper1" style="display: none;">
+                    <video id="techVideo1" src="chip_make.mp4" controls playsinline webkit-playsinline preload="none"></video>
+                    <p class="video-caption">视频来源：中芯国际</p>
+                </div>
+            </div>
+
             <div class="metal-etch-note">
                 <div class="metal-etch-title">金属腐蚀片 · 书签上的“芯片级”工艺</div>
                 <div class="metal-etch-text">
                     书签顶部的张江天际线、中部的芯片电路，均采用金属腐蚀片制作。
                     通过曝光、蚀刻在金属表面留下微细线条，形成金属光泽与镂空层次。
-                    这与芯片制造中的光刻、蚀刻思路一致——都是用“减法”在材料上刻出精密通道。
+                    这与芯片制造中的光刻、蚀刻思路一致——都不是把线路“印”上去，而是把多余材料“刻”掉，留下精密通道。
                 </div>
             </div>
         </div>
 
-        <!-- 新增：AI 功能展示区 -->
+        <!-- AI 功能展示区 -->
         <div class="card">
             <h2>AI 赋能 / AI Function</h2>
             <p class="text-content" style="margin-bottom: 15px;">
                 前沿人工智能技术，正在加速科学的发现与创新：
             </p>
-            <!-- 视频2：AI 功能演示 -->
-            <div class="video-wrapper">
-                <video src="ai_function.mp4" controls playsinline webkit-playsinline preload="none" poster="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=600&auto=format&fit=crop"></video>
-                <p class="video-caption">视频来源：英伟达</p>
+
+            <div class="anim-block">
+                <div class="anim-title">AI 驱动科研 · 从数据到发现</div>
+                <div class="ai-anim">
+                    <svg viewBox="0 0 360 220" aria-label="AI 加速科学发现动画">
+                        <defs>
+                            <linearGradient id="aiBg" x1="0" y1="0" x2="1" y2="1">
+                                <stop offset="0" stop-color="#0b1224"/>
+                                <stop offset="1" stop-color="#111c33"/>
+                            </linearGradient>
+                            <radialGradient id="aiCoreGlow" cx="50%" cy="50%" r="50%">
+                                <stop offset="0" stop-color="#38bdf8" stop-opacity="0.55"/>
+                                <stop offset="1" stop-color="#38bdf8" stop-opacity="0"/>
+                            </radialGradient>
+                            <filter id="aiGlow" x="-50%" y="-50%" width="200%" height="200%">
+                                <feGaussianBlur stdDeviation="2" result="blur"/>
+                                <feMerge>
+                                    <feMergeNode in="blur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </defs>
+
+                        <rect width="360" height="220" rx="14" fill="url(#aiBg)"/>
+
+                        <!-- 数据节点 -->
+                        <g class="ai-nodes" fill="#7dd3fc">
+                            <circle cx="60" cy="50" r="3"/>
+                            <circle cx="100" cy="90" r="3"/>
+                            <circle cx="70" cy="140" r="3"/>
+                            <circle cx="120" cy="170" r="3"/>
+                            <circle cx="290" cy="60" r="3"/>
+                            <circle cx="300" cy="120" r="3"/>
+                            <circle cx="270" cy="170" r="3"/>
+                        </g>
+
+                        <!-- 数据连接线 -->
+                        <g class="ai-links" stroke="#38bdf8" stroke-width="0.8" opacity="0.35">
+                            <line x1="60" y1="50" x2="180" y2="110"/>
+                            <line x1="100" y1="90" x2="180" y2="110"/>
+                            <line x1="70" y1="140" x2="180" y2="110"/>
+                            <line x1="120" y1="170" x2="180" y2="110"/>
+                            <line x1="290" y1="60" x2="180" y2="110"/>
+                            <line x1="300" y1="120" x2="180" y2="110"/>
+                            <line x1="270" y1="170" x2="180" y2="110"/>
+                        </g>
+
+                        <!-- 核心光晕 -->
+                        <circle cx="180" cy="110" r="60" fill="url(#aiCoreGlow)" class="ai-pulse"/>
+
+                        <!-- AI 核心 -->
+                        <circle cx="180" cy="110" r="26" fill="#0a1020" stroke="#38bdf8" stroke-width="1.6" filter="url(#aiGlow)"/>
+                        <text x="180" y="115" text-anchor="middle" fill="#38bdf8" font-size="12" font-family="monospace" font-weight="bold">AI</text>
+
+                        <!-- 旋转轨道 -->
+                        <g class="ai-orbit" style="transform-origin:180px 110px;">
+                            <circle cx="180" cy="110" r="44" fill="none" stroke="#7dd3fc" stroke-width="0.8" stroke-dasharray="4 6" opacity="0.6"/>
+                            <circle cx="224" cy="110" r="3.5" fill="#facc15" filter="url(#aiGlow)"/>
+                        </g>
+                        <g class="ai-orbit ai-orbit-rev" style="transform-origin:180px 110px;">
+                            <circle cx="180" cy="110" r="58" fill="none" stroke="#818cf8" stroke-width="0.8" stroke-dasharray="2 8" opacity="0.5"/>
+                            <circle cx="122" cy="110" r="3" fill="#86efac" filter="url(#aiGlow)"/>
+                        </g>
+
+                        <!-- 流动数据点 -->
+                        <g class="ai-flow" fill="#fde68a" filter="url(#aiGlow)">
+                            <circle r="2.5">
+                                <animateMotion dur="3s" repeatCount="indefinite" path="M60 50 L180 110"/>
+                            </circle>
+                            <circle r="2.5">
+                                <animateMotion dur="3.4s" repeatCount="indefinite" path="M100 90 L180 110"/>
+                            </circle>
+                            <circle r="2.5">
+                                <animateMotion dur="3.8s" repeatCount="indefinite" path="M70 140 L180 110"/>
+                            </circle>
+                            <circle r="2.5">
+                                <animateMotion dur="3.2s" repeatCount="indefinite" path="M290 60 L180 110"/>
+                            </circle>
+                            <circle r="2.5">
+                                <animateMotion dur="3.6s" repeatCount="indefinite" path="M300 120 L180 110"/>
+                            </circle>
+                            <circle r="2.5">
+                                <animateMotion dur="4s" repeatCount="indefinite" path="M270 170 L180 110"/>
+                            </circle>
+                        </g>
+
+                        <!-- 发现输出 -->
+                        <g class="ai-output">
+                            <circle cx="180" cy="190" r="4" fill="#10b981" filter="url(#aiGlow)"/>
+                            <line x1="180" y1="136" x2="180" y2="186" stroke="#10b981" stroke-width="1.2" stroke-dasharray="3 4"/>
+                            <text x="180" y="210" text-anchor="middle" fill="#a7f3d0" font-size="10">发现 / 新药 / 新材料</text>
+                        </g>
+
+                        <!-- 输出到 NFC 书签 -->
+                        <g class="ai-to-nfc">
+                            <path d="M232 190 C270 190 286 160 300 140" fill="none" stroke="#facc15" stroke-width="1.4" stroke-dasharray="5 4" filter="url(#aiGlow)"/>
+                            <path d="M300 140 L293 146 M300 140 L295 133" fill="none" stroke="#facc15" stroke-width="1.6" stroke-linecap="round"/>
+                            <rect x="292" y="112" width="34" height="22" rx="4" fill="#0a1020" stroke="#facc15" stroke-width="1.2"/>
+                            <path d="M300 123 a5 5 0 0 1 0 -10" fill="none" stroke="#facc15" stroke-width="1.2"/>
+                            <path d="M304 126 a8 8 0 0 1 0 -16" fill="none" stroke="#facc15" stroke-width="1.2"/>
+                            <text x="309" y="151" text-anchor="middle" fill="#facc15" font-size="9">NFC 书签</text>
+                        </g>
+                    </svg>
+                </div>
+                <p class="video-caption">数据汇聚到 AI 核心，模型加速筛选与预测，最终指向新药、新材料等科学发现，并可写入 NFC 书签。</p>
             </div>
         </div>
-
-        <!-- 第三部分：时空胶囊 -->
+                <!-- 第三部分：时空胶囊 -->
         <div class="card">
             <h2>Explore / 写入时空胶囊</h2>
             <p class="text-content" style="margin-bottom: 15px;">
@@ -641,14 +890,11 @@
         TRUST THE PROCESS<br>© 张江学区科创大赛作品
     </footer>
         <script>
-        // 1. 芯片激活与视频播放逻辑
+        // 1. 芯片激活逻辑（触发交互结果提示）
         let isChipActive = false;
         function activateChip() {
             const btn = document.getElementById('chipBtn');
             const result = document.getElementById('chipResult');
-            const video1 = document.getElementById('techVideo1');
-            const wrapper1 = document.getElementById('videoWrapper1');
-            const tcmStage = document.getElementById('tcmStage');
             
             if (isChipActive) return;
             isChipActive = true;
@@ -659,12 +905,7 @@
             btn.style.fontSize = '30px';
 
             result.style.display = 'block';
-            wrapper1.style.display = 'block';
-            tcmStage.classList.add('show');
             
-            if(video1) {
-                video1.play().catch(e => console.log("自动播放被阻止，需用户手动点击"));
-            }
             if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
         }
 
@@ -741,6 +982,19 @@
                 });
             }
             explain.style.display = 'block';
+        }
+
+        // 4. 视频按需加载
+        function loadChipVideo() {
+            const wrapper = document.getElementById('videoWrapper1');
+            const video = document.getElementById('techVideo1');
+            const btn = document.getElementById('loadVideoBtn');
+            wrapper.style.display = 'block';
+            btn.style.display = 'none';
+            if (video) {
+                video.load();
+                video.play().catch(() => {});
+            }
         }
     </script>
 </body>
