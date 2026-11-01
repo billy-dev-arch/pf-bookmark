@@ -188,6 +188,32 @@
         }
         .video-wrapper video { width: 100%; display: block; object-fit: cover; }
 
+        /* 金属腐蚀片说明 */
+        .metal-etch-note {
+            margin-top: 16px;
+            padding: 14px 16px;
+            background: linear-gradient(135deg, rgba(56,189,248,0.08), rgba(250,204,21,0.05));
+            border: 1px solid rgba(56,189,248,0.25);
+            border-radius: 12px;
+        }
+        .metal-etch-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 8px;
+        }
+        .metal-etch-title::before {
+            content: '◈';
+            color: #38bdf8;
+            margin-right: 6px;
+        }
+        .metal-etch-text {
+            font-size: 13px;
+            color: #94a3b8;
+            line-height: 1.7;
+            text-align: justify;
+        }
+
         /* 时空胶囊 */
         .capsule-area { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; }
         textarea {
@@ -310,11 +336,17 @@
             <p class="text-content" style="margin-bottom: 15px;">
                 点击芯片，先看它是怎么做出来的，再看银杏叶脉为什么和电路是同一种通道。
             </p>
+            <p class="text-content" style="font-size: 13px; color: #94a3b8; margin-bottom: 15px;">
+                书签顶部的“张江天际线”和中间的“芯片电路”，都不是普通印刷，而是采用
+                <strong style="color:#38bdf8;">金属腐蚀片工艺</strong>制作：在金属薄片上用蚀刻方式留下细线，
+                线条的精度和层次，和芯片电路的光刻蚀刻思路异曲同工。
+            </p>
             <div class="chip-interaction">
                 <div class="chip-btn" id="chipBtn" onclick="activateChip()"></div>
                 <div class="chip-result" id="chipResult">
                     <strong>[ 智能感应激活成功 ]</strong>
-                    银杏叶脉输送养分，芯片电路传输信号。NFC 把这张书签接到手机上。
+                    银杏叶脉输送养分，芯片电路传输信号。NFC 把这张书签接到手机上。<br>
+                    <span style="color:#facc15;">书签上的天际线与芯片图案，采用金属腐蚀片工艺蚀刻成型，细线精度接近芯片电路的制造逻辑。</span>
                 </div>
             </div>
             
@@ -376,6 +408,14 @@
                 </svg>
                 <p class="video-caption">银杏叶是传统药材。叶脉把水分和养分送到叶片，经络疏通气血，芯片电路传输电信号。NFC 把这张书签接到手机上。</p>
             </div>
+            <div class="metal-etch-note">
+                <div class="metal-etch-title">金属腐蚀片 · 书签上的“芯片级”工艺</div>
+                <div class="metal-etch-text">
+                    书签顶部的张江天际线、中部的芯片电路，均采用金属腐蚀片制作。
+                    通过曝光、蚀刻在金属表面留下微细线条，形成金属光泽与镂空层次。
+                    这与芯片制造中的光刻、蚀刻思路一致——都是用“减法”在材料上刻出精密通道。
+                </div>
+            </div>
         </div>
 
         <!-- 新增：AI 功能展示区 -->
@@ -408,7 +448,7 @@
             </div>
         </div>
 
-        <!-- 第四部分：趣味问答区 (共5题) -->
+        <!-- 第四部分：趣味问答区 (共6题) -->
         <div class="card">
             <h2>知识问答 / Quiz</h2>
             <div class="quiz-container">
@@ -446,7 +486,7 @@
                     <div class="quiz-explain">解析：十年磨一剑，这体现了科创中极其珍贵的“长期主义”精神。</div>
                 </div>
 
-                <!-- 题4：中药叶脉与芯片的类比 (新替换) -->
+                <!-- 题4：中药叶脉与芯片的类比 -->
                 <div class="quiz-item">
                     <div class="quiz-question">4. 中药的“叶脉经络”和芯片的“集成电路”，这两者在微观世界的本质共同点是？</div>
                     <div class="quiz-options">
@@ -467,6 +507,17 @@
                     </div>
                     <div class="quiz-explain">解析：银杏叶代表传统生命科学，芯片代表现代信息技术，两者在张江交汇。</div>
                 </div>
+
+                <!-- 题6：金属腐蚀片工艺 -->
+                <div class="quiz-item">
+                    <div class="quiz-question">6. 书签上的“张江天际线”和“芯片电路”金属片，主要采用了哪种工艺？</div>
+                    <div class="quiz-options">
+                        <button class="option-btn" onclick="checkAnswer(this, false)">A. 普通彩色印刷</button>
+                        <button class="option-btn" onclick="checkAnswer(this, true)">B. 金属腐蚀片（蚀刻）工艺</button>
+                        <button class="option-btn" onclick="checkAnswer(this, false)">C. 3D 打印塑料成型</button>
+                    </div>
+                    <div class="quiz-explain">解析：金属腐蚀片通过曝光、蚀刻在金属表面形成细线图案，精度和层次接近芯片电路的制造逻辑，也与书签“芯片 + NFC”的主题呼应。</div>
+                </div>
                 
             </div>
         </div>
@@ -476,8 +527,7 @@
     <footer>
         TRUST THE PROCESS<br>© 张江学区科创大赛作品
     </footer>
-
-    <script>
+        <script>
         // 1. 芯片激活与视频播放逻辑
         let isChipActive = false;
         function activateChip() {
