@@ -38,14 +38,47 @@
             padding: 24px;
             background: linear-gradient(180deg, rgba(15,23,42,0) 0%, rgba(15,23,42,1) 100%);
         }
+
+        /* 金属腐蚀片质感天际线 */
         .skyline {
             position: absolute;
-            bottom: 0; left: 0; width: 100%; height: 120px;
-            background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 20" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,20 L0,15 L5,15 L5,10 L10,10 L10,18 L15,18 L15,5 L20,5 L20,12 L25,12 L25,2 L30,2 L30,15 L40,15 L40,8 L45,8 L45,20 Z" fill="rgba(56,189,248,0.1)"/></svg>');
-            background-size: cover;
-            background-repeat: no-repeat;
+            bottom: 0; left: 0; width: 100%; height: 140px;
             z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+            -webkit-mask-image: linear-gradient(to top, #000 55%, transparent 100%);
+            mask-image: linear-gradient(to top, #000 55%, transparent 100%);
         }
+        .skyline svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        .skyline .metal-bg {
+            fill: url(#metalGrad);
+        }
+        .skyline .metal-edge {
+            fill: none;
+            stroke: #e5e7eb;
+            stroke-width: 0.35;
+            opacity: 0.9;
+        }
+        .skyline .metal-etch {
+            fill: none;
+            stroke: #94a3b8;
+            stroke-width: 0.18;
+            opacity: 0.55;
+        }
+        .skyline .metal-glint {
+            fill: #f8fafc;
+            opacity: 0.5;
+        }
+        .skyline .metal-glow {
+            fill: #38bdf8;
+            opacity: 0.22;
+            filter: blur(6px);
+        }
+
         .hero-content { position: relative; z-index: 1; }
         .hero h1 {
             font-size: 30px;
@@ -266,7 +299,87 @@
 <body>
 
     <div class="hero">
-        <div class="skyline"></div>
+        <div class="skyline" aria-hidden="true">
+            <svg viewBox="0 0 100 24" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="metalGrad" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0" stop-color="#0f172a"/>
+                        <stop offset="0.18" stop-color="#334155"/>
+                        <stop offset="0.38" stop-color="#94a3b8"/>
+                        <stop offset="0.55" stop-color="#cbd5e1"/>
+                        <stop offset="0.72" stop-color="#64748b"/>
+                        <stop offset="0.88" stop-color="#1e293b"/>
+                        <stop offset="1" stop-color="#0f172a"/>
+                    </linearGradient>
+                </defs>
+
+                <!-- 建筑群：金属填充 -->
+                <g class="metal-bg">
+                    <path d="M0 24 L0 17 L4 17 L4 13 L8 13 L8 19 L12 19 L12 10 L16 10 L16 15 L20 15 L20 7 L24 7 L24 16 L28 16 L28 4 L32 4 L32 13 L36 13 L36 9 L40 9 L40 18 L44 18 L44 12 L48 12 L48 6 L52 6 L52 15 L56 15 L56 11 L60 11 L60 19 L64 19 L64 14 L68 14 L68 8 L72 8 L72 16 L76 16 L76 12 L80 12 L80 20 L84 20 L84 15 L88 15 L88 10 L92 10 L92 17 L96 17 L96 13 L100 13 L100 24 Z"/>
+                </g>
+
+                <!-- 金属高光 -->
+                <g class="metal-glint">
+                    <rect x="4" y="13" width="4" height="0.4"/>
+                    <rect x="12" y="10" width="4" height="0.4"/>
+                    <rect x="20" y="7" width="4" height="0.4"/>
+                    <rect x="28" y="4" width="4" height="0.4"/>
+                    <rect x="36" y="9" width="4" height="0.4"/>
+                    <rect x="44" y="12" width="4" height="0.4"/>
+                    <rect x="52" y="6" width="4" height="0.4"/>
+                    <rect x="60" y="11" width="4" height="0.4"/>
+                    <rect x="68" y="8" width="4" height="0.4"/>
+                    <rect x="76" y="12" width="4" height="0.4"/>
+                    <rect x="84" y="15" width="4" height="0.4"/>
+                    <rect x="92" y="10" width="4" height="0.4"/>
+                </g>
+
+                <!-- 蚀刻细线：楼体分割与窗格感 -->
+                <g class="metal-etch">
+                    <line x1="4" y1="13" x2="4" y2="17"/>
+                    <line x1="8" y1="13" x2="8" y2="19"/>
+                    <line x1="12" y1="10" x2="12" y2="19"/>
+                    <line x1="16" y1="10" x2="16" y2="15"/>
+                    <line x1="20" y1="7" x2="20" y2="15"/>
+                    <line x1="24" y1="7" x2="24" y2="16"/>
+                    <line x1="28" y1="4" x2="28" y2="16"/>
+                    <line x1="32" y1="4" x2="32" y2="13"/>
+                    <line x1="36" y1="9" x2="36" y2="13"/>
+                    <line x1="40" y1="9" x2="40" y2="18"/>
+                    <line x1="44" y1="12" x2="44" y2="18"/>
+                    <line x1="48" y1="6" x2="48" y2="12"/>
+                    <line x1="52" y1="6" x2="52" y2="15"/>
+                    <line x1="56" y1="11" x2="56" y2="15"/>
+                    <line x1="60" y1="11" x2="60" y2="19"/>
+                    <line x1="64" y1="14" x2="64" y2="19"/>
+                    <line x1="68" y1="8" x2="68" y2="14"/>
+                    <line x1="72" y1="8" x2="72" y2="16"/>
+                    <line x1="76" y1="12" x2="76" y2="16"/>
+                    <line x1="80" y1="12" x2="80" y2="20"/>
+                    <line x1="84" y1="15" x2="84" y2="20"/>
+                    <line x1="88" y1="10" x2="88" y2="15"/>
+                    <line x1="92" y1="10" x2="92" y2="17"/>
+                    <line x1="96" y1="13" x2="96" y2="17"/>
+                </g>
+
+                <!-- 横向蚀刻线，模拟楼层 -->
+                <g class="metal-etch" opacity="0.35">
+                    <line x1="0" y1="19.5" x2="100" y2="19.5"/>
+                    <line x1="0" y1="21.5" x2="100" y2="21.5"/>
+                    <line x1="0" y1="23" x2="100" y2="23"/>
+                </g>
+
+                <!-- 边缘高光 -->
+                <g class="metal-edge">
+                    <path d="M0 24 L0 17 L4 17 L4 13 L8 13 L8 19 L12 19 L12 10 L16 10 L16 15 L20 15 L20 7 L24 7 L24 16 L28 16 L28 4 L32 4 L32 13 L36 13 L36 9 L40 9 L40 18 L44 18 L44 12 L48 12 L48 6 L52 6 L52 15 L56 15 L56 11 L60 11 L60 19 L64 19 L64 14 L68 14 L68 8 L72 8 L72 16 L76 16 L76 12 L80 12 L80 20 L84 20 L84 15 L88 15 L88 10 L92 10 L92 17 L96 17 L96 13 L100 13"/>
+                </g>
+
+                <!-- 底部冷光 -->
+                <g class="metal-glow">
+                    <rect x="0" y="22" width="100" height="2"/>
+                </g>
+            </svg>
+        </div>
         <div class="hero-content">
             <h1>Stories of Invention</h1>
             <p>> 张江科创·时空胶囊...</p>
